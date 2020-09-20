@@ -5,5 +5,9 @@
     <string name="config">Config</string>
     <string name="help">Help</string>
     <string name="weather">Weather</string>
+
     <string name="home">Home</string>
+    <string name="remove_marker_question">Do you want to remove marker?</string>
+    <string name="remove">Remove</string>
+    <string name="cancel">Cancel</string>
 </resources>
