@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/homeMapFragment">
+
+
+    <fragment
+        android:id="@+id/homeMapFragment"
+        android:name="com.example.weatherapp.ui.home.HomeMapFragment"
+        android:label="fragment_home_map"
+        tools:layout="@layout/fragment_home_map" >
+        <action
+            android:id="@+id/action_homeMapFragment_to_citiesFragment"
+            app:destination="@id/citiesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/citiesFragment"
+        android:name="com.example.weatherapp.ui.cities.CitiesFragment"
+        tools:layout="@layout/cities_fragment"
+        android:label="CitiesFragment" >
+        <action
+            android:id="@+id/action_citiesFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.example.weatherapp.ui.help.HelpFragment"
+        android:label="help_fragment"
+        tools:layout="@layout/help_fragment" >
+        <action
+            android:id="@+id/action_helpFragment_to_configFragment"
+            app:destination="@id/configFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/configFragment"
+        android:name="com.example.weatherapp.ui.config.ConfigFragment"
+        android:label="config_fragment"
+        tools:layout="@layout/config_fragment" />
+</navigation>
