@@ -1,5 +1,7 @@
 package com.example.weatherapp.di
 
+import com.example.weatherapp.domain.usecases.DeleteMarkerUseCase
+import com.example.weatherapp.domain.usecases.GetMarkersUseCase
 import com.example.weatherapp.domain.usecases.SaveMarkerUseCase
 import com.example.weatherapp.ui.home.HomeViewModel
 import dagger.Module
@@ -18,7 +20,9 @@ object PresentationModule {
     @Provides
     fun providesHomeViewModel(
         coroutineDispatcher: CoroutineDispatcher,
-        saveMarkerUseCase: SaveMarkerUseCase
-    ) = HomeViewModel(coroutineDispatcher, saveMarkerUseCase)
+        saveMarkerUseCase: SaveMarkerUseCase,
+        deleteMarkerUseCase: DeleteMarkerUseCase,
+        getMarkers: GetMarkersUseCase
+    ) = HomeViewModel(coroutineDispatcher, saveMarkerUseCase, deleteMarkerUseCase, getMarkers)
 
 }

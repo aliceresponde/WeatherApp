@@ -1,5 +1,9 @@
 package com.example.weatherapp.di
 
+import com.example.weatherapp.data.datasource.LocalDataSource
+import com.example.weatherapp.data.datasource.RemoteDataSource
+import com.example.weatherapp.data.datasource.RetrofitDataSource
+import com.example.weatherapp.data.datasource.RoomDataSource
 import com.example.weatherapp.data.local.PreferencesHelper
 import com.example.weatherapp.data.local.PreferencesHelperImp
 import dagger.Binds

@@ -3,7 +3,6 @@ package com.example.weatherapp.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.example.weatherapp.data.datasource.LocalDataSource
 import com.example.weatherapp.data.datasource.RemoteDataSource
 import com.example.weatherapp.data.datasource.RetrofitDataSource
@@ -12,6 +11,10 @@ import com.example.weatherapp.data.local.PlacesDao
 import com.example.weatherapp.data.local.PreferencesHelper
 import com.example.weatherapp.data.local.WeatherDataBase
 import com.example.weatherapp.data.remote.WeatherApiService
+import com.example.weatherapp.domain.usecases.DeleteMarkerUseCase
+import com.example.weatherapp.domain.usecases.DeleteMarkerUseCaseImp
+import com.example.weatherapp.domain.usecases.GetMarkersUseCase
+import com.example.weatherapp.domain.usecases.GetMarkersUseCaseImp
 import com.example.weatherapp.domain.usecases.SaveMarkerUseCase
 import com.example.weatherapp.domain.usecases.SaveMarkerUseCaseImp
 import com.example.weatherapp.repository.WeatherRepository
@@ -68,4 +71,12 @@ object ApplicationModule {
     @Provides
     fun provideSaveMarkerUseCaseImp(repository: WeatherRepository): SaveMarkerUseCase =
         SaveMarkerUseCaseImp(repository)
+
+    @Provides
+    fun providesDeleteMarkerUseCase(repository: WeatherRepository): DeleteMarkerUseCase =
+        DeleteMarkerUseCaseImp(repository)
+
+    @Provides
+    fun providesGetMarkersUseCase(repository: WeatherRepository): GetMarkersUseCase =
+        GetMarkersUseCaseImp(repository)
 }

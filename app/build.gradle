@@ -83,6 +83,8 @@ dependencies {
 
     // // Below is the Google Play Services dependency required for using the Google Maps Android API
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+
 
     // ============= Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"

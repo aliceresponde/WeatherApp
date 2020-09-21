@@ -11,8 +11,11 @@ import com.example.movieshop.ui.common.BaseFragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentHomeMapBinding
 import com.example.weatherapp.domain.model.PlaceItem
+import com.example.weatherapp.domain.roundOffDecimal
+import com.example.weatherapp.domain.toMarkerOption
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,18 +23,16 @@ import dagger.hilt.android.AndroidEntryPoint
 private val Marker.toPlaceItem: PlaceItem
     get() {
         return PlaceItem(
-            lat = this.position.latitude,
-            long = this.position.longitude,
-            name = this.title
+            lat = roundOffDecimal(position.latitude),
+            long = roundOffDecimal(position.longitude),
+            name = title
         )
     }
 
 @AndroidEntryPoint
 class HomeMapFragment : BaseFragment<FragmentHomeMapBinding>(), OnMapReadyCallback {
     private val viewModel: HomeViewModel by viewModels()
-    private var googleMap: GoogleMap? = null
-    private val placeList = mutableListOf<PlaceItem>()
-    private var markerPlaceMap: MutableMap<Marker, PlaceItem> = mutableMapOf()
+    private lateinit var googleMap: GoogleMap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,19 +40,38 @@ class HomeMapFragment : BaseFragment<FragmentHomeMapBinding>(), OnMapReadyCallba
     ): View? {
 
         binding = FragmentHomeMapBinding.inflate(inflater)
-        binding.lifecycleOwner = viewLifecycleOwner
+        initObservers()
         return binding.root
     }
 
-    override fun onMapReady(p0: GoogleMap?) {
-        googleMap = binding.map as GoogleMap
-        googleMap?.apply {
+    private fun initObservers() {
+        viewModel.getAllPlaces().observe(viewLifecycleOwner, {
+            loadPlacesInMap(it)
+        })
+    }
+
+    private fun loadPlacesInMap(places: List<PlaceItem>) {
+        val markers = places.map { it.toMarkerOption() }
+        googleMap.clear()
+        markers.forEach { googleMap.addMarker(it) }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.markerList
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(this)
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+        googleMap.apply {
             uiSettings.isMyLocationButtonEnabled = true
             setOnMapClickListener { latLng ->
-                val marker = addMarker(MarkerOptions().draggable(false).position(latLng))
-                val element = marker.toPlaceItem
-                placeList.add(element)
-                markerPlaceMap[marker] = element
+                val marker = addMarker(MarkerOptions().draggable(false).position(latLng).title("marker"))
+                val place = marker.toPlaceItem
+                viewModel.save(place)
             }
 
             setOnMarkerClickListener { marker ->
@@ -67,11 +87,7 @@ class HomeMapFragment : BaseFragment<FragmentHomeMapBinding>(), OnMapReadyCallba
             builder.setMessage(R.string.remove_marker_question)
                 .setPositiveButton(R.string.remove,
                     DialogInterface.OnClickListener { _, _ ->
-                        marker.remove()
-                        val place = markerPlaceMap[marker]
-                        markerPlaceMap.remove(marker)
-                        viewModel.deletePlace(place)
-
+                        viewModel.deletePlace(marker.position)
                     })
                 .setNegativeButton(R.string.cancel,
                     DialogInterface.OnClickListener { dialog, _ ->
@@ -83,3 +99,5 @@ class HomeMapFragment : BaseFragment<FragmentHomeMapBinding>(), OnMapReadyCallba
         }
     }
 }
+
+

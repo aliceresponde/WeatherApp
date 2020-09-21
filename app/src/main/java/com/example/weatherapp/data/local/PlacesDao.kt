@@ -1,9 +1,7 @@
 package com.example.weatherapp.data.local
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import android.util.Log
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,11 +13,11 @@ interface PlacesDao {
     suspend fun insertAll(places: List<Place>)
 
     @Query("Select *  from place")
-    fun getAllPlaces(): Flow<List<Place>>
+    fun getAllPlacesFlow(): Flow<List<Place>>
 
 
-    @Query("SELECT * FROM Place WHERE lat = :latitude & lng =:longitude LIMIT 1")
-    suspend fun getPlaceBy(latitude: Long, longitude: Long): Place
+    @Query("SELECT * FROM Place WHERE lat = :latitude AND lng =:longitude LIMIT 1")
+    suspend fun getPlaceBy(latitude: Double, longitude: Double): Place
 
     @Query("SELECT * FROM Place WHERE id = :id LIMIT 1")
     suspend fun getPlaceBy(id: Int): Place
@@ -33,5 +31,17 @@ interface PlacesDao {
 
     @Delete
     suspend fun deleteAll(place: Place)
+
+    //    @Query("Delete  FROM place WHERE lat = :latitude & lng =:longitude")
+    @Transaction
+    suspend fun deletePlaceWithLatLong(latitude: Double, longitude: Double) {
+       try {
+
+        val place = getPlaceBy(latitude, longitude)
+       delete(place)
+       }catch (t: Throwable){
+           Log.e("delete ER", t.message ?: "no message")
+       }
+    }
 
 }
