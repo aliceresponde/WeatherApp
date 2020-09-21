@@ -3,6 +3,8 @@
 # How to Use the App
 
 - App requires internet connection
+- create in the root of the project the file named api.properties and add the field
+API_KEY="Wheather_appid"that is taken from https://openweathermap.org/api or user the key suggest in the assigment description.
 
 
 # Screens
