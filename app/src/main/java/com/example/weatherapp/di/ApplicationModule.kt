@@ -11,6 +11,12 @@ import com.example.weatherapp.data.local.PlacesDao
 import com.example.weatherapp.data.local.PreferencesHelper
 import com.example.weatherapp.data.local.WeatherDataBase
 import com.example.weatherapp.data.remote.WeatherApiService
+import com.example.weatherapp.domain.ChangeUnitSystemUseCase
+import com.example.weatherapp.domain.ChangeUnitSystemUseCaseImp
+import com.example.weatherapp.domain.DeleteAllMarkersUseCase
+import com.example.weatherapp.domain.DeleteAllMarkersUseCaseImp
+import com.example.weatherapp.domain.GetCurrentUnitSystemUseCase
+import com.example.weatherapp.domain.GetCurrentUnitSystemUseCaseImp
 import com.example.weatherapp.domain.usecases.DeleteMarkerUseCase
 import com.example.weatherapp.domain.usecases.DeleteMarkerUseCaseImp
 import com.example.weatherapp.domain.usecases.GetMarkersUseCase
@@ -79,4 +85,15 @@ object ApplicationModule {
     @Provides
     fun providesGetMarkersUseCase(repository: WeatherRepository): GetMarkersUseCase =
         GetMarkersUseCaseImp(repository)
+
+    @Provides
+    fun providesDeleteAllMarkersUseCase(repository: WeatherRepository): DeleteAllMarkersUseCase =
+        DeleteAllMarkersUseCaseImp(repository)
+
+    @Provides
+    fun providesChangeUnitSystemUseCase(preferencesHelper: PreferencesHelper): ChangeUnitSystemUseCase =
+        ChangeUnitSystemUseCaseImp(preferencesHelper)
+
+    @Provides
+    fun getCurrentSystemUseCase(preferencesHelper: PreferencesHelper): GetCurrentUnitSystemUseCase = GetCurrentUnitSystemUseCaseImp(preferencesHelper)
 }

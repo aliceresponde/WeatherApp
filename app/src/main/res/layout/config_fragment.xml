@@ -25,13 +25,13 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/red"
+            android:id="@+id/metricSystemRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Metric" />
 
         <RadioButton
-            android:id="@+id/green"
+            android:id="@+id/imperialSystemRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Imperial" />
@@ -39,6 +39,7 @@
     </RadioGroup>
 
     <Button
+        android:id="@+id/deleteAllMarkersBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete all locations"

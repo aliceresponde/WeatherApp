@@ -4,15 +4,17 @@ import android.content.SharedPreferences
 import javax.inject.Inject
 
 const val KEY_UNITS = "units"
-const val METRIC = "metric"
+const val METRIC = "Metric"
 
 class PreferencesHelperImp @Inject constructor(private val preference: SharedPreferences) :
     PreferencesHelper {
     override fun getSystemUnits(): String {
-        return preference.getString(KEY_UNITS, METRIC) ?: METRIC
+        return preference.getString(KEY_UNITS, METRIC) ?: ""
     }
 
     override fun saveSystemUnits(systemUnit: String) {
-        preference.edit().putString(KEY_UNITS, systemUnit).apply()
+        preference.edit()
+            .putString(KEY_UNITS, systemUnit)
+            .apply()
     }
 }

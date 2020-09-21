@@ -14,6 +14,7 @@ interface WeatherRepository {
     suspend fun getPlaceBy(id: Int): Place
     suspend fun getPlaceByNameFlow(name: String): Flow<List<Place>>
 
+    suspend fun deleteAllPlaces()
     suspend fun deletePlaceWithLatLong(lat: Double, long: Double)
     fun getAllMarkers(): Flow<List<Place>>
 }
@@ -37,6 +38,10 @@ class WeatherRepositoryImp @Inject constructor(
 
     override suspend fun getPlaceByNameFlow(name: String): Flow<List<Place>> {
         return local.getPlaceByNameFlow(name)
+    }
+
+    override suspend fun deleteAllPlaces() {
+        local.deleteAllPlaces()
     }
 
     override suspend fun deletePlaceWithLatLong(lat: Double, long: Double) {

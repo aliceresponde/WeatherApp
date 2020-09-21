@@ -4,24 +4,47 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.movieshop.ui.common.BaseFragment
 import com.example.weatherapp.R
+import com.example.weatherapp.databinding.ConfigFragmentBinding
+import com.example.weatherapp.domain.model.MetricSystem
+import com.example.weatherapp.domain.model.MetricSystem.METRIC_SYS
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ConfigFragment : Fragment() {
-    private  val viewModel: ConfigViewModel by viewModels()
-
+class ConfigFragment : BaseFragment<ConfigFragmentBinding>() {
+    private val viewModel: ConfigViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.config_fragment, container, false)
+        binding = ConfigFragmentBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        when (viewModel.getCurrentSystem()) {
+            METRIC -> binding.radioGroup.check(R.id.metricSystemRadio)
+            IMPERIAL -> binding.radioGroup.check(R.id.imperialSystemRadio)
+            else -> { }
+        }
+
+        binding.radioGroup.setOnCheckedChangeListener { _, id ->
+            when (id) {
+                R.id.metricSystemRadio -> viewModel.updateSystemPreference(METRIC)
+                R.id.imperialSystemRadio -> viewModel.updateSystemPreference(IMPERIAL)
+                else -> { }
+            }
+        }
+
+        binding.deleteAllMarkersBtn.setOnClickListener { viewModel.deleteAllMarkers() }
+    }
+
+    companion object {
+        private const val IMPERIAL: String = "Imperial"
+        private const val METRIC: String = "Metric"
     }
 
 }

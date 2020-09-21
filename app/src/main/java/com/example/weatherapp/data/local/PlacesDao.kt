@@ -1,7 +1,11 @@
 package com.example.weatherapp.data.local
 
 import android.util.Log
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -29,8 +33,8 @@ interface PlacesDao {
     @Delete
     suspend fun delete(place: Place)
 
-    @Delete
-    suspend fun deleteAll(place: Place)
+    @Query("DELETE FROM place")
+    suspend fun deleteAll()
 
     //    @Query("Delete  FROM place WHERE lat = :latitude & lng =:longitude")
     @Transaction

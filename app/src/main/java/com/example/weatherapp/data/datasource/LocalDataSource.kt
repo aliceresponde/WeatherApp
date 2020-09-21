@@ -8,13 +8,15 @@ import kotlinx.coroutines.flow.Flow
 interface LocalDataSource {
     suspend fun savePlace(place: Place)
     suspend fun getPlaceById(id: Int): Place
-    suspend fun getPlaceByNameFlow(name: String): Flow<List<Place>>
     suspend fun deletePlaceWithLatLong(lat: Double, long: Double)
-    fun getAllMarkersFlow(): Flow<List<Place>>
     suspend fun getPlaceByLatLon(latitude: Double, longitude: Double): Place
+    suspend fun deleteAllPlaces()
+
+    fun getAllMarkersFlow(): Flow<List<Place>>
+    fun getPlaceByNameFlow(name: String): Flow<List<Place>>
 }
 
-class RoomDataSource (private val placesDao: PlacesDao) : LocalDataSource {
+class RoomDataSource(private val placesDao: PlacesDao) : LocalDataSource {
     override suspend fun savePlace(place: Place) {
         placesDao.insert(place)
     }
@@ -23,11 +25,15 @@ class RoomDataSource (private val placesDao: PlacesDao) : LocalDataSource {
         return placesDao.getPlaceBy(latitude, longitude)
     }
 
+    override suspend fun deleteAllPlaces() {
+        placesDao.deleteAll()
+    }
+
     override suspend fun getPlaceById(id: Int): Place {
         return placesDao.getPlaceBy(id)
     }
 
-    override suspend fun getPlaceByNameFlow(name: String): Flow<List<Place>> {
+    override fun getPlaceByNameFlow(name: String): Flow<List<Place>> {
         return placesDao.getPlacesByNameFlow(name)
     }
 
