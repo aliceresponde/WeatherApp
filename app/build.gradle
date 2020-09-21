@@ -26,7 +26,7 @@ android {
         multiDexEnabled true
 
         buildConfigField("String", "BASE_URL", '"https://api.openweathermap.org/data/2.5/"')
-        buildConfigField("String", "HELP_URL", '"https://www.xda-developers.com/best-weather-apps-weather-widget-android/"')
+        buildConfigField("String", "HELP_URL", '"https://github.com/aliceresponde/WeatherApp"')
         buildConfigField("String", "IMG_PREFIX_URL", '"https://openweathermap.org/img/wn/"')
         buildConfigField("String", "IMG_POSFIX_URL", '"@2x.png"')
         buildConfigField("String", "API_KEY", apiProperties['API_KEY'])
