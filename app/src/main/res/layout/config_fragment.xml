@@ -28,10 +28,13 @@
             android:id="@+id/metricSystemRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/purple_700"
+            tools:checked="true"
             android:text="Metric" />
 
         <RadioButton
             android:id="@+id/imperialSystemRadio"
+            android:buttonTint="@color/purple_700"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Imperial" />

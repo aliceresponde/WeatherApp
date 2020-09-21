@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.domain.ChangeUnitSystemUseCase
 import com.example.weatherapp.domain.DeleteAllMarkersUseCase
 import com.example.weatherapp.domain.GetCurrentUnitSystemUseCase
-import com.example.weatherapp.domain.model.MetricSystem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

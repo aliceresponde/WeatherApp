@@ -8,8 +8,7 @@ import androidx.fragment.app.viewModels
 import com.example.movieshop.ui.common.BaseFragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ConfigFragmentBinding
-import com.example.weatherapp.domain.model.MetricSystem
-import com.example.weatherapp.domain.model.MetricSystem.METRIC_SYS
+
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
