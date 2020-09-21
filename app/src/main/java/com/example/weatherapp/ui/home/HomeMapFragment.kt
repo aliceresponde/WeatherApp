@@ -7,6 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieshop.ui.common.BaseFragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentHomeMapBinding
@@ -19,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
+
 
 private val Marker.toPlaceItem: PlaceItem
     get() {
@@ -33,6 +38,7 @@ private val Marker.toPlaceItem: PlaceItem
 class HomeMapFragment : BaseFragment<FragmentHomeMapBinding>(), OnMapReadyCallback {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var googleMap: GoogleMap
+    private val adapter: PlaceItemAdapter by lazy { PlaceItemAdapter(onItemClickListener = ::goToCitiesScreen) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,23 +51,27 @@ class HomeMapFragment : BaseFragment<FragmentHomeMapBinding>(), OnMapReadyCallba
     }
 
     private fun initObservers() {
-        viewModel.getAllPlaces().observe(viewLifecycleOwner, {
+        viewModel.getAllPlaces().observe(viewLifecycleOwner) {
             loadPlacesInMap(it)
-        })
+        }
     }
 
     private fun loadPlacesInMap(places: List<PlaceItem>) {
         val markers = places.map { it.toMarkerOption() }
         googleMap.clear()
         markers.forEach { googleMap.addMarker(it) }
+        adapter.updateData(places)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.markerList
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+
+        binding.markerList.adapter = adapter
+        binding.markerList.addItemDecoration( dividerItemDecoration)
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -69,7 +79,8 @@ class HomeMapFragment : BaseFragment<FragmentHomeMapBinding>(), OnMapReadyCallba
         googleMap.apply {
             uiSettings.isMyLocationButtonEnabled = true
             setOnMapClickListener { latLng ->
-                val marker = addMarker(MarkerOptions().draggable(false).position(latLng).title("marker"))
+                val marker =
+                    addMarker(MarkerOptions().draggable(false).position(latLng).title("marker"))
                 val place = marker.toPlaceItem
                 viewModel.save(place)
             }
@@ -97,6 +108,11 @@ class HomeMapFragment : BaseFragment<FragmentHomeMapBinding>(), OnMapReadyCallba
             builder.create()
             builder.show()
         }
+    }
+
+    fun goToCitiesScreen(placeItem: PlaceItem) {
+        val action = HomeMapFragmentDirections.actionHomeMapFragmentToCitiesFragment(placeItem)
+        findNavController().navigate(action)
     }
 }
 

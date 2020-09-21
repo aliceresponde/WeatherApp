@@ -18,11 +18,14 @@
     <fragment
         android:id="@+id/citiesFragment"
         android:name="com.example.weatherapp.ui.cities.CitiesFragment"
-        tools:layout="@layout/cities_fragment"
-        android:label="CitiesFragment" >
+        android:label="CitiesFragment"
+        tools:layout="@layout/cities_fragment">
         <action
             android:id="@+id/action_citiesFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
+        <argument
+            android:name="placeItem"
+            app:argType="com.example.weatherapp.domain.model.PlaceItem" />
     </fragment>
     <fragment
         android:id="@+id/helpFragment"
