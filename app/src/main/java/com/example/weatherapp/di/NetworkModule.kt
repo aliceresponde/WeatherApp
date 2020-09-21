@@ -1,5 +1,6 @@
 package com.example.weatherapp.di
 
+import com.example.weatherapp.BuildConfig.API_KEY
 import com.example.weatherapp.BuildConfig.BASE_URL
 import com.example.weatherapp.data.local.PreferencesHelper
 import com.example.weatherapp.data.remote.WeatherApiService
@@ -19,15 +20,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 @InstallIn(ApplicationComponent::class)
 object NetworkModule {
     private const val PARAMETER_APP_ID = "appid"
+    private const val PARAMETER_UNITS = "units"
 
     @Provides
-    fun provideApiKeyInterceptor(preferencesHelper: PreferencesHelper) = object : Interceptor {
+    fun provideApiKeyInterceptor(preferencesHelper: PreferencesHelper,
+                                 @ApiKey API_KEY: String) = object : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val originalRequest = chain.request()
             val originalHttpUrl = originalRequest.url
 
             val newUrl = originalHttpUrl.newBuilder()
-                .addQueryParameter(PARAMETER_APP_ID, preferencesHelper.getSystemUnits())
+                .addQueryParameter(PARAMETER_APP_ID, API_KEY)
+                .addQueryParameter(PARAMETER_UNITS, preferencesHelper.getSystemUnits())
                 .build()
 
             val newRequest = originalRequest.newBuilder().url(newUrl).build()

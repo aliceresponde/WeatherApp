@@ -11,32 +11,29 @@ import retrofit2.http.Query
  */
 interface WeatherApiService {
 
-    /**
-    * This function gets the [CurrentWeather] for the [locationName] the
-    * user searched for.
-    */
+    // ==================== Current Weather =====================
     @GET("/data/2.5/weather")
     suspend fun getCurrentWeatherByLocationName(
-        @Query("q") locationName: String,
+        @Query("q") locationName: String
     ): CurrentWeather
 
-    // This function gets the weather information for the user's location.
     @GET("/data/2.5/weather")
     suspend fun getCurrentWeatherByLatLon(
         @Query("lat") latitude: Double,
-        @Query("lon") longitude: Double,
+        @Query("lon") longitude: Double
     ): CurrentWeather
+
+    // ==================== FORECAST =====================
 
     @GET("data/2.5/forecast")
     suspend fun getWeatherForecast(
-        @Query("id") cityId: Int,
-    ): Response<NetworkWeatherForecastResponse>
+        @Query("q") locationName: String,
+    ): NetworkWeatherForecastResponse
 
-    //https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=hourly,minutely
-    @GET("data/2.5/onecall")
-    suspend fun getWeatherOneCall(
-        @Query("lat") latitude: Float,
-        @Query("lon") longitude: Float,
-        @Query("exclude") exclude: String = "hourly,minutely",
-    )
+
+    @GET("data/2.5/forecast")
+    suspend fun getWeatherForecast(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double
+    ): NetworkWeatherForecastResponse
 }

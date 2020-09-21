@@ -4,6 +4,7 @@ import com.example.weatherapp.data.datasource.LocalDataSource
 import com.example.weatherapp.data.datasource.RemoteDataSource
 import com.example.weatherapp.data.local.Place
 import com.example.weatherapp.data.local.PreferencesHelper
+import com.example.weatherapp.data.model.CurrentWeather
 import com.example.weatherapp.domain.model.PlaceItem
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -17,6 +18,11 @@ interface WeatherRepository {
     suspend fun deleteAllPlaces()
     suspend fun deletePlaceWithLatLong(lat: Double, long: Double)
     fun getAllMarkers(): Flow<List<Place>>
+
+    //  ================= remote
+    suspend fun getCurrentWeatherByLocation(locationName: String): CurrentWeather
+    suspend fun getCurrentWeatherByLatLon(latitude: Double,
+                                          longitude: Double): CurrentWeather
 }
 
 class WeatherRepositoryImp @Inject constructor(
@@ -52,5 +58,15 @@ class WeatherRepositoryImp @Inject constructor(
         return local.getAllMarkersFlow()
     }
 
+    override suspend fun getCurrentWeatherByLocation(locationName: String): CurrentWeather {
+        return remote.getCurrentWeatherByLocation(locationName)
+    }
+
+    override suspend fun getCurrentWeatherByLatLon(
+        latitude: Double,
+        longitude: Double
+    ): CurrentWeather {
+        return remote.getCurrentWeatherByLatLon(latitude, longitude)
+    }
 
 }

@@ -3,6 +3,7 @@ package com.example.weatherapp.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.data.datasource.LocalDataSource
 import com.example.weatherapp.data.datasource.RemoteDataSource
 import com.example.weatherapp.data.datasource.RetrofitDataSource
@@ -17,6 +18,8 @@ import com.example.weatherapp.domain.DeleteAllMarkersUseCase
 import com.example.weatherapp.domain.DeleteAllMarkersUseCaseImp
 import com.example.weatherapp.domain.GetCurrentUnitSystemUseCase
 import com.example.weatherapp.domain.GetCurrentUnitSystemUseCaseImp
+import com.example.weatherapp.domain.GetCurrentWeatherUseCase
+import com.example.weatherapp.domain.GetCurrentWeatherUseCaseImp
 import com.example.weatherapp.domain.usecases.DeleteMarkerUseCase
 import com.example.weatherapp.domain.usecases.DeleteMarkerUseCaseImp
 import com.example.weatherapp.domain.usecases.GetMarkersUseCase
@@ -30,6 +33,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 const val SHARED_PREF_NAME = "weather_preferences"
@@ -91,9 +95,21 @@ object ApplicationModule {
         DeleteAllMarkersUseCaseImp(repository)
 
     @Provides
+    fun provideGetCurrentWeatherUseCase(repository: WeatherRepository): GetCurrentWeatherUseCase =
+        GetCurrentWeatherUseCaseImp(repository)
+
+
+    // todo change it to local data souce
+    @Provides
     fun providesChangeUnitSystemUseCase(preferencesHelper: PreferencesHelper): ChangeUnitSystemUseCase =
         ChangeUnitSystemUseCaseImp(preferencesHelper)
 
     @Provides
-    fun getCurrentSystemUseCase(preferencesHelper: PreferencesHelper): GetCurrentUnitSystemUseCase = GetCurrentUnitSystemUseCaseImp(preferencesHelper)
+    fun getCurrentSystemUseCase(preferencesHelper: PreferencesHelper): GetCurrentUnitSystemUseCase =
+        GetCurrentUnitSystemUseCaseImp(preferencesHelper)
+
+    @ApiKey
+    @Singleton
+    @Provides
+    fun provideApiKey() = BuildConfig.API_KEY
 }
