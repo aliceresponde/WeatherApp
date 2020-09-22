@@ -1,4 +1,4 @@
-package com.example.weatherapp.domain
+package com.example.weatherapp.domain.usecases
 
 import com.example.weatherapp.repository.WeatherRepository
 
@@ -6,7 +6,8 @@ interface DeleteAllMarkersUseCase {
     suspend operator fun invoke()
 }
 
-class DeleteAllMarkersUseCaseImp(private val repository: WeatherRepository): DeleteAllMarkersUseCase {
+class DeleteAllMarkersUseCaseImp(private val repository: WeatherRepository):
+    DeleteAllMarkersUseCase {
     override suspend fun invoke() {
         repository.deleteAllPlaces()
     }

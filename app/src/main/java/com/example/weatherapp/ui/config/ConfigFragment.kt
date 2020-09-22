@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.movieshop.ui.common.BaseFragment
 import com.example.weatherapp.R
@@ -39,6 +40,10 @@ class ConfigFragment : BaseFragment<ConfigFragmentBinding>() {
         }
 
         binding.deleteAllMarkersBtn.setOnClickListener { viewModel.deleteAllMarkers() }
+
+        viewModel.isChangeReady.observe(viewLifecycleOwner, {
+            Toast.makeText(requireContext(), getString(R.string.changes_done), Toast.LENGTH_SHORT).show()
+        })
     }
 
     companion object {

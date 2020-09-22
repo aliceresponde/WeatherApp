@@ -14,4 +14,5 @@
     <string name="humidity">Humidity: </string>
     <string name="rain">Rain: </string>
     <string name="temperature">Temp: </string>
+    <string name="changes_done">Changes Done</string>
 </resources>

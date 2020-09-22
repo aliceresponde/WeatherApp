@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weatherapp.domain.model.WeatherForecast
 import com.example.weatherapp.databinding.ForecastWeatherCardBinding
+import com.example.weatherapp.domain.model.ForecastWeatherItem
 
 class WeatherForecastAdapter() :
-    ListAdapter<WeatherForecast, WeatherForecastAdapter.ViewHolder>(WeatherForecastDiffCallBack()) {
+    ListAdapter<ForecastWeatherItem, WeatherForecastAdapter.ViewHolder>(WeatherForecastDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -23,9 +23,8 @@ class WeatherForecastAdapter() :
     class ViewHolder(private val binding: ForecastWeatherCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(weatherForecast: WeatherForecast) {
-            binding.weatherForecast = weatherForecast
-            binding.weatherForecastDescription =  weatherForecast.networkWeatherDescription.first()
+        fun bind(weatherForecast: ForecastWeatherItem) {
+            binding.item = weatherForecast
             binding.executePendingBindings()
         }
 
@@ -38,14 +37,17 @@ class WeatherForecastAdapter() :
         }
     }
 
-    class WeatherForecastDiffCallBack : DiffUtil.ItemCallback<WeatherForecast>() {
-        override fun areItemsTheSame(oldItem: WeatherForecast, newItem: WeatherForecast): Boolean {
-            return oldItem.uID == newItem.uID
+    class WeatherForecastDiffCallBack : DiffUtil.ItemCallback<ForecastWeatherItem>() {
+        override fun areItemsTheSame(
+            oldItem: ForecastWeatherItem,
+            newItem: ForecastWeatherItem
+        ): Boolean {
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: WeatherForecast,
-            newItem: WeatherForecast
+            oldItem: ForecastWeatherItem,
+            newItem: ForecastWeatherItem
         ): Boolean {
             return oldItem == newItem
         }

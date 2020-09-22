@@ -11,3 +11,11 @@ fun currentSystemTime(): String {
     val dateFormat = SimpleDateFormat("EEEE MMM d, hh:mm aaa")
     return dateFormat.format(date)
 }
+
+@SuppressLint("SimpleDateFormat")
+fun Long.toFormatDateSting(dateFormat: String = "EEEE MMM d, hh:mm aaa"): String {
+    val formatter = SimpleDateFormat(dateFormat)
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = this
+    return formatter.format(calendar.time)
+}

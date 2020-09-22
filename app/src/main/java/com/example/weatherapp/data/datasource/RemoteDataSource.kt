@@ -1,16 +1,15 @@
 package com.example.weatherapp.data.datasource
 
 import com.example.weatherapp.data.model.CurrentWeather
+import com.example.weatherapp.data.model.NetworkWeatherForecastResponse
 import com.example.weatherapp.data.remote.WeatherApiService
 import javax.inject.Inject
 
 interface RemoteDataSource {
     suspend fun getCurrentWeatherByLocation(locationName: String): CurrentWeather
     suspend fun getCurrentWeatherByLatLon(latitude: Double, longitude: Double): CurrentWeather
-
-//    suspend fun getOneCall(latitude: Long, longitude: Long)
-//    suspend fun getTodayWeather(latitude: Long, longitude: Long)
-//    suspend fun getLastFiveDaysWeather(latitude: Long, longitude: Long)
+    suspend fun getForecastWeatherLatLng(lat: Double, long: Double): NetworkWeatherForecastResponse
+    suspend fun getForecastWeatherByLocationName(locationName: String): NetworkWeatherForecastResponse
 }
 
 class RetrofitDataSource @Inject constructor(private val apiService: WeatherApiService) :
@@ -24,5 +23,16 @@ class RetrofitDataSource @Inject constructor(private val apiService: WeatherApiS
         longitude: Double
     ): CurrentWeather {
         return apiService.getCurrentWeatherByLatLon(latitude, longitude)
+    }
+
+    override suspend fun getForecastWeatherLatLng(
+        lat: Double,
+        long: Double
+    ): NetworkWeatherForecastResponse {
+        return apiService.getWeatherForecast(lat, long)
+    }
+
+    override suspend fun getForecastWeatherByLocationName(locationName: String): NetworkWeatherForecastResponse {
+        return apiService.getWeatherForecast(locationName)
     }
 }

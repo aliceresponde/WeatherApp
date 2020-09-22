@@ -5,9 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.help.HelpFragment">
 
+    <include
+        android:id="@+id/progress"
+        layout="@layout/progress_overlay"/>
+
     <WebView
         android:id="@+id/helpWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+
 </FrameLayout>

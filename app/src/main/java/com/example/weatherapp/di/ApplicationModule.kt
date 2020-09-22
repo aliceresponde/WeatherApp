@@ -12,14 +12,14 @@ import com.example.weatherapp.data.local.PlacesDao
 import com.example.weatherapp.data.local.PreferencesHelper
 import com.example.weatherapp.data.local.WeatherDataBase
 import com.example.weatherapp.data.remote.WeatherApiService
-import com.example.weatherapp.domain.ChangeUnitSystemUseCase
-import com.example.weatherapp.domain.ChangeUnitSystemUseCaseImp
-import com.example.weatherapp.domain.DeleteAllMarkersUseCase
-import com.example.weatherapp.domain.DeleteAllMarkersUseCaseImp
-import com.example.weatherapp.domain.GetCurrentUnitSystemUseCase
-import com.example.weatherapp.domain.GetCurrentUnitSystemUseCaseImp
-import com.example.weatherapp.domain.GetCurrentWeatherUseCase
-import com.example.weatherapp.domain.GetCurrentWeatherUseCaseImp
+import com.example.weatherapp.domain.usecases.ChangeUnitSystemUseCase
+import com.example.weatherapp.domain.usecases.ChangeUnitSystemUseCaseImp
+import com.example.weatherapp.domain.usecases.DeleteAllMarkersUseCase
+import com.example.weatherapp.domain.usecases.DeleteAllMarkersUseCaseImp
+import com.example.weatherapp.domain.usecases.GetCurrentUnitSystemUseCase
+import com.example.weatherapp.domain.usecases.GetCurrentUnitSystemUseCaseImp
+import com.example.weatherapp.domain.usecases.GetCurrentWeatherUseCase
+import com.example.weatherapp.domain.usecases.GetCurrentWeatherUseCaseImp
 import com.example.weatherapp.domain.usecases.DeleteMarkerUseCase
 import com.example.weatherapp.domain.usecases.DeleteMarkerUseCaseImp
 import com.example.weatherapp.domain.usecases.GetMarkersUseCase
@@ -33,7 +33,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 const val SHARED_PREF_NAME = "weather_preferences"

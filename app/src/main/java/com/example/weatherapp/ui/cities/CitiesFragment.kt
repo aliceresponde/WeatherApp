@@ -4,21 +4,18 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.movieshop.ui.common.BaseFragment
-import com.example.weatherapp.R
 import com.example.weatherapp.databinding.CitiesFragmentBinding
 import com.example.weatherapp.domain.model.PlaceItem
 import com.example.weatherapp.ui.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.progress_overlay.*
 
 @AndroidEntryPoint
 class CitiesFragment : BaseFragment<CitiesFragmentBinding>() {
@@ -40,27 +37,45 @@ class CitiesFragment : BaseFragment<CitiesFragmentBinding>() {
     private fun initObservers() {
         binding.viewModel = viewModel
 
-        viewModel.showCurrentWeatherCard.observe(viewLifecycleOwner, { state ->
-            binding.apply {
-                todayWeatherCard.showIf { state }
-            }
-        })
+        with(viewModel) {
+            showCurrentWeatherCard.observe(viewLifecycleOwner, { state ->
+                binding.apply { todayWeatherCard.showIf { state } }
+            })
 
-        viewModel.currentWeather.observe(viewLifecycleOwner, { w ->
-            binding.currentW = w
-        })
+            showForecastRecycler.observe(viewLifecycleOwner, { state ->
+                binding.apply { forecastList.showIf { state } }
+            })
+
+            currentWeather.observe(
+                viewLifecycleOwner,
+                { currentWeather -> binding.currentW = currentWeather }
+            )
+
+            forecastWeatherList.observe(viewLifecycleOwner, { data ->
+                adapter.submitList(data.toMutableList())
+            })
+
+            loadingVisibility.observe(viewLifecycleOwner, { visibility ->
+                binding.apply { loader.progressOverlay.visibility = visibility }
+            })
+
+            errorMessage.observe(viewLifecycleOwner, {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            })
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.weatherList.adapter = adapter
+        binding.forecastList.adapter = adapter
         binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.getCurrentWeatherByLocationName(query ?: "")
+                viewModel.getForecastWeatherByLocationName(query ?: "")
                 val imm: InputMethodManager =
                     requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view!!.windowToken, 0)
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
                 return true
             }
 
@@ -71,6 +86,7 @@ class CitiesFragment : BaseFragment<CitiesFragmentBinding>() {
 
         place?.run {
             viewModel.getCurrentWeatherBy(lat, long)
+            viewModel.getForecastWeatherLatLng(lat, long)
         }
     }
 }

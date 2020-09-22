@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="weatherForecast"
-            type="com.example.weatherapp.domain.model.WeatherForecast" />
+            name="item"
+            type="com.example.weatherapp.domain.model.ForecastWeatherItem" />
 
         <variable
             name="weatherForecastDescription"
@@ -29,7 +30,7 @@
                 android:id="@+id/cardDtPlace"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{weatherForecast.date}"
+                android:text="@{item.date}"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="48dp"
                 android:layout_marginRight="48dp"
-                android:text="@{weatherForecastDescription.main}"
+                android:text="@{item.weatherDesc}"
                 android:textColor="@color/white"
                 android:textSize="28sp"
                 android:textStyle="bold"
@@ -54,6 +55,7 @@
 
             <ImageView
                 android:id="@+id/cardWeatherIcon"
+                imageUrl="@{item.iconUrl}"
                 android:layout_width="@dimen/weather_icon_size"
                 android:layout_height="@dimen/weather_icon_size"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,23 +67,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:text="@{item.temp}"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toStartOf="@id/cardWeatherIcon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardWeatherDesc"
-                android:text="@{String.valueOf(weatherForecast.networkWeatherCondition.temp)}"
                 tools:text="Temp:17 C" />
 
             <TextView
                 android:id="@+id/cardMainHumidity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@{item.humidity}"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardMainTemp"
-                android:text="@{String.valueOf(weatherForecast.networkWeatherCondition.humidity).concat(@string/humidity)}"
                 tools:text="Humidity: 22%" />
 
             <TextView
@@ -93,20 +95,19 @@
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardMainHumidity"
-                tools:text="Rain: 23"
-                android:text="@{(@string/rain).concat(String.valueOf(weatherForecast))}"/>
+                tools:text="Rain: 23" />
 
             <TextView
                 android:id="@+id/cardWindSpeed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:text="@{item.windSpeed}"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardRain1h"
-                tools:text="Wind Speed: 3"
-                android:text="@{(@string/humidity).concat(String.valueOf(weatherForecast.wind.speed))}"/>
+                tools:text="Wind Speed: 3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

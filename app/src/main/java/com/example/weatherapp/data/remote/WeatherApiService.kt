@@ -12,12 +12,13 @@ import retrofit2.http.Query
 interface WeatherApiService {
 
     // ==================== Current Weather =====================
-    @GET("/data/2.5/weather")
+    //https://api.openweathermap.org/data/2.5/
+    @GET("weather")
     suspend fun getCurrentWeatherByLocationName(
         @Query("q") locationName: String
     ): CurrentWeather
 
-    @GET("/data/2.5/weather")
+    @GET("weather")
     suspend fun getCurrentWeatherByLatLon(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double
@@ -25,13 +26,13 @@ interface WeatherApiService {
 
     // ==================== FORECAST =====================
 
-    @GET("data/2.5/forecast")
+    @GET("forecast")
     suspend fun getWeatherForecast(
         @Query("q") locationName: String,
     ): NetworkWeatherForecastResponse
 
 
-    @GET("data/2.5/forecast")
+    @GET("forecast")
     suspend fun getWeatherForecast(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double

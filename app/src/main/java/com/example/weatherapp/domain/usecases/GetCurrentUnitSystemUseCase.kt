@@ -1,4 +1,4 @@
-package com.example.weatherapp.domain
+package com.example.weatherapp.domain.usecases
 
 import com.example.weatherapp.data.local.PreferencesHelper
 
