@@ -20,11 +20,32 @@ class CitiesViewModel @ViewModelInject constructor(
         private val _currentWeather = MutableLiveData<CurrentWeatherItem>()
         val currentWeather: LiveData<CurrentWeatherItem> get() = _currentWeather
 
+        private val _showCurrentWeatherCard = MutableLiveData<Boolean>()
+        val showCurrentWeatherCard: LiveData<Boolean> get() = _showCurrentWeatherCard
+
     fun getCurrentWeatherBy(latitude: Double, longitude:Double){
         viewModelScope.launch (coroutineDispatcher){
+            _showCurrentWeatherCard.postValue(false)
             val response =  getCurrentWeatherUC.getCurrentWeatherByLatLon(latitude, longitude)
             when(response){
-                is RemoCurrentWeatherResponse.Success -> _currentWeather.postValue(response.data)
+                is RemoCurrentWeatherResponse.Success -> {
+                    _currentWeather.postValue(response.data)
+                    _showCurrentWeatherCard.postValue(true)
+                }
+                RemoCurrentWeatherResponse.Error -> {}
+            }
+        }
+    }
+
+    fun getCurrentWeatherByLocationName(locationName: String) {
+        viewModelScope.launch (coroutineDispatcher){
+            _showCurrentWeatherCard.postValue(false)
+            val response =  getCurrentWeatherUC.getCurrentWeatherByLocation(locationName)
+            when(response){
+                is RemoCurrentWeatherResponse.Success -> {
+                    _currentWeather.postValue(response.data)
+                    _showCurrentWeatherCard.postValue(true)
+                }
                 RemoCurrentWeatherResponse.Error -> {}
             }
         }

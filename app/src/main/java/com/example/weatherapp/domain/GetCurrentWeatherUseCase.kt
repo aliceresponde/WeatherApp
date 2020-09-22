@@ -6,9 +6,11 @@ import com.example.weatherapp.repository.WeatherRepository
 interface GetCurrentWeatherUseCase {
     suspend fun getCurrentWeatherByLocation(locationName: String) : RemoCurrentWeatherResponse
     suspend fun getCurrentWeatherByLatLon(latitude: Double, longitude: Double) : RemoCurrentWeatherResponse
+
 }
 
 class GetCurrentWeatherUseCaseImp(val repository: WeatherRepository) : GetCurrentWeatherUseCase {
+
     override suspend fun getCurrentWeatherByLocation(locationName: String): RemoCurrentWeatherResponse{
         return try {
             val data =  repository.getCurrentWeatherByLocation(locationName).toCurrentWeatherItem()

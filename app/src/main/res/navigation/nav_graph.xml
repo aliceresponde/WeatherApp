@@ -25,7 +25,9 @@
             app:destination="@id/helpFragment" />
         <argument
             android:name="placeItem"
-            app:argType="com.example.weatherapp.domain.model.PlaceItem" />
+            android:defaultValue="@null"
+            app:argType="com.example.weatherapp.domain.model.PlaceItem"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/helpFragment"
