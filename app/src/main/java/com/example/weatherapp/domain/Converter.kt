@@ -9,6 +9,7 @@ import com.example.weatherapp.domain.model.PlaceItem
 import com.example.weatherapp.ui.utils.currentSystemTime
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -16,6 +17,13 @@ fun roundOffDecimal(number: Double): Double {
     val df = DecimalFormat("#.###")
     df.roundingMode = RoundingMode.FLOOR
     return df.format(number).toDouble()
+}
+
+fun round(value: Double, places: Int = 3): Double {
+    require(places >= 0)
+    var bd = BigDecimal(value.toString())
+    bd = bd.setScale(places, RoundingMode.HALF_UP)
+    return bd.toDouble()
 }
 
 fun PlaceItem.toMarkerOption(): MarkerOptions {

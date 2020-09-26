@@ -15,6 +15,7 @@ import com.example.movieshop.ui.common.BaseFragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentHomeMapBinding
 import com.example.weatherapp.domain.model.PlaceItem
+import com.example.weatherapp.domain.round
 import com.example.weatherapp.domain.roundOffDecimal
 import com.example.weatherapp.domain.toMarkerOption
 import com.google.android.gms.maps.GoogleMap
@@ -28,8 +29,8 @@ import dagger.hilt.android.AndroidEntryPoint
 private val Marker.toPlaceItem: PlaceItem
     get() {
         return PlaceItem(
-            lat = roundOffDecimal(position.latitude),
-            long = roundOffDecimal(position.longitude),
+            lat = round(position.latitude),
+            long = round(position.longitude),
             name = title
         )
     }
