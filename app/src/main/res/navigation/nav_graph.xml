@@ -3,18 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/homeMapFragment">
+    app:startDestination="@id/stateSelectionFragment">
 
 
     <fragment
         android:id="@+id/homeMapFragment"
         android:name="com.example.weatherapp.ui.home.HomeMapFragment"
         android:label="fragment_home_map"
-        tools:layout="@layout/fragment_home_map" >
+        tools:layout="@layout/fragment_home_map">
         <action
             android:id="@+id/action_homeMapFragment_to_citiesFragment"
             app:destination="@id/citiesFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/citiesFragment"
         android:name="com.example.weatherapp.ui.cities.CitiesFragment"
@@ -33,7 +34,7 @@
         android:id="@+id/helpFragment"
         android:name="com.example.weatherapp.ui.help.HelpFragment"
         android:label="help_fragment"
-        tools:layout="@layout/help_fragment" >
+        tools:layout="@layout/help_fragment">
         <action
             android:id="@+id/action_helpFragment_to_configFragment"
             app:destination="@id/configFragment" />
@@ -44,4 +45,9 @@
         android:name="com.example.weatherapp.ui.config.ConfigFragment"
         android:label="config_fragment"
         tools:layout="@layout/config_fragment" />
+    <fragment
+        android:id="@+id/stateSelectionFragment"
+        android:name="com.example.weatherapp.ui.home.StateSelectionFragment"
+        android:label="StateSelectionFragment"
+        tools:layout="@layout/state_selection_fragment" />
 </navigation>

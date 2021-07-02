@@ -9,14 +9,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieshop.ui.common.BaseFragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentHomeMapBinding
 import com.example.weatherapp.domain.model.PlaceItem
 import com.example.weatherapp.domain.round
-import com.example.weatherapp.domain.roundOffDecimal
 import com.example.weatherapp.domain.toMarkerOption
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -111,7 +109,7 @@ class HomeMapFragment : BaseFragment<FragmentHomeMapBinding>(), OnMapReadyCallba
         }
     }
 
-    fun goToCitiesScreen(placeItem: PlaceItem) {
+    private fun goToCitiesScreen(placeItem: PlaceItem) {
         val action = HomeMapFragmentDirections.actionHomeMapFragmentToCitiesFragment(placeItem)
         findNavController().navigate(action)
     }

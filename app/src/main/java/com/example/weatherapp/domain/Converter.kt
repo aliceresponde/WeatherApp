@@ -34,16 +34,21 @@ fun CurrentWeather.toCurrentWeatherItem(): CurrentWeatherItem {
     val weather = networkWeatherDescriptions.first()
     val main = networkWeatherCondition
     return CurrentWeatherItem(
-        id = cityId,
+        cityId = cityId,
         placeName = name,
-        weatherName = weather.main ?: "",
-        weatherDesc = weather.description ?: "",
-        iconUrl = "${BuildConfig.IMG_PREFIX_URL}${weather.icon}${BuildConfig.IMG_POSFIX_URL}",
-        temp = "Temp: ${main.temp}",
+        weatherName = weather.weatherName ?: "",
+        weatherDesc = weather.weatherDescription ?: "",
+        iconUrl = "${BuildConfig.IMG_PREFIX_URL}${weather.weatherIcon}${BuildConfig.IMG_POSFIX_URL}",
+        currentTemp = "Temp: ${main.temp}",
+        minTemp = "Min: ${main.temp_min}",
         humidity = "Humidity: ${main.humidity}",
         pressure = "Pressure: ${main.pressure}",
         windSpeed = "Wind Speed: ${wind.speed}",
-        date = currentSystemTime()
+        date = currentSystemTime(),
+        dt = this.dateUTC,
+        country = this.system.country,
+        maxTemp = "Max: ${main.temp_max}",
+        feel = main.feels_like.toString()
     )
 }
 
@@ -52,14 +57,17 @@ fun NetworkWeatherForecastResponse.toForeCastWeatherItemList(): List<ForecastWea
     return weathers.map { weatherCasts ->
         ForecastWeatherItem(
             placeName = city.name,
-            weatherName = weatherCasts.networkWeatherDescription.first().main ?: "",
-            weatherDesc = weatherCasts.networkWeatherDescription.first().description ?: "",
-            iconUrl = "${BuildConfig.IMG_PREFIX_URL}${weatherCasts.networkWeatherDescription.first().icon}${BuildConfig.IMG_POSFIX_URL}",
-            temp = "Temp: ${weatherCasts.networkWeatherCondition.temp}",
-            pressure = "Pressure: ${weatherCasts.networkWeatherCondition.pressure}",
-            humidity = "Humidity: ${weatherCasts.networkWeatherCondition.humidity}",
+            weatherName = weatherCasts.weather.first().weatherName ?: "",
+            weatherDesc = weatherCasts.weather.first().weatherDescription ?: "",
+            iconUrl = "${BuildConfig.IMG_PREFIX_URL}${weatherCasts.weather.first().weatherIcon}${BuildConfig.IMG_POSFIX_URL}",
+            temp = "Temp: ${weatherCasts.main.temp}",
+            pressure = "Pressure: ${weatherCasts.main.pressure}",
+            humidity = "Humidity: ${weatherCasts.main.humidity}",
             windSpeed = "Wind speed: ${weatherCasts.wind.speed}",
-            date = weatherCasts.date
+            date = weatherCasts.date,
+            country = city.country,
+            cityId = this.city.id,
+            dt = weatherCasts.dt
         )
     }
 }

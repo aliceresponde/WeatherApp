@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item
-    android:id="@+id/homeMapFragment"
-    android:title="@string/home"
-    android:icon="@drawable/ic_home_places"
-    />
+    <item
+        android:id="@+id/stateSelectionFragment"
+        android:icon="@drawable/ic_home_places"
+        android:title="@string/home" />
     <item
         android:id="@+id/citiesFragment"
-        android:title="@string/weather"
         android:icon="@drawable/ic_weather"
-        />
+        android:title="@string/weather" />
     <item
         android:id="@+id/helpFragment"
-        android:title="@string/help"
         android:icon="@drawable/ic_help"
-        />
+        android:title="@string/help" />
     <item
         android:id="@+id/configFragment"
-        android:title="@string/config"
         android:icon="@drawable/ic_settings"
-        />
+        android:title="@string/config" />
 </menu>

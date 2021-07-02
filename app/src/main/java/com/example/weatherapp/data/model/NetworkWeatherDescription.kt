@@ -1,12 +1,16 @@
 package com.example.weatherapp.data.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class NetworkWeatherDescription(
     val id: Long,
-    val main: String?,
-    val description: String?,
-    val icon: String?
+    @SerializedName("main")
+    val weatherName: String,
+    @SerializedName("description")
+    val weatherDescription: String,
+    @SerializedName("icon")
+    val weatherIcon: String
 ) : Parcelable

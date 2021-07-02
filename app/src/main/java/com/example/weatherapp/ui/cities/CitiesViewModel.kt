@@ -38,6 +38,12 @@ class CitiesViewModel @ViewModelInject constructor(
     private val _loadingVisibility = MutableLiveData<Int>()
     val loadingVisibility: LiveData<Int> get() = _loadingVisibility
 
+    private val _currentState = MutableLiveData<String>()
+    val currentState: LiveData<String> get() = _currentState
+
+    private val _currentCapital = MutableLiveData<String>()
+    val currentCapital: LiveData<String> get() = _currentCapital
+
     fun getCurrentWeatherBy(latitude: Double, longitude: Double) {
         viewModelScope.launch(coroutineDispatcher) {
             _showCurrentWeatherCard.postValue(false)
@@ -116,5 +122,13 @@ class CitiesViewModel @ViewModelInject constructor(
                 }
             }
         }
+    }
+
+    fun setCurrentState(state: String) {
+        _currentState.value = state
+    }
+
+    fun setCurrentCapital(capital: String) {
+        _currentCapital.value = capital
     }
 }

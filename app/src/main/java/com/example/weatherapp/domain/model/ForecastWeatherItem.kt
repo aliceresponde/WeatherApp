@@ -1,6 +1,7 @@
 package com.example.weatherapp.domain.model
 
 data class ForecastWeatherItem(
+    val cityId: Long,
     val placeName: String,
     val temp: String,
     val date: String,
@@ -9,5 +10,7 @@ data class ForecastWeatherItem(
     val windSpeed:  String,
     val iconUrl: String,
     val weatherName: String,
-    val weatherDesc: String
+    val weatherDesc: String,
+    val country: String,
+    val dt: Long
 )

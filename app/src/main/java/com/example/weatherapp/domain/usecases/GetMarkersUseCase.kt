@@ -6,12 +6,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-interface  GetMarkersUseCase {
+interface GetMarkersUseCase {
     operator fun invoke(): Flow<List<PlaceItem>>
 
 }
 
-class GetMarkersUseCaseImp @Inject constructor(private val repository: WeatherRepository): GetMarkersUseCase {
+class GetMarkersUseCaseImp @Inject constructor(private val repository: WeatherRepository) :
+    GetMarkersUseCase {
     override fun invoke(): Flow<List<PlaceItem>> {
         return repository.getAllMarkers().map { placeList ->
             placeList.map { it.toPlaceItem() }

@@ -2,13 +2,13 @@ package com.example.weatherapp.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class NetworkWeatherForecast(
-    val id: Int,
+data class ForecastResponse(
+    val dt : Long,
     @SerializedName("dt_txt")
     val date: String,
     val wind: Wind,
     @SerializedName("weather")
-    val networkWeatherDescription: List<NetworkWeatherDescription>,
+    val weather: List<NetworkWeatherDescription>,
     @SerializedName("main")
-    val networkWeatherCondition: NetworkWeatherCondition
+    val main: NetworkWeatherCondition
 )

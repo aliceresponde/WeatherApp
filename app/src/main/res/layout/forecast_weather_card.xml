@@ -33,9 +33,9 @@
                 android:text="@{item.date}"
                 android:textColor="@color/white"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/cardWindSpeed"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardWeatherIcon"
+                app:layout_constraintTop_toTopOf="@+id/cardWindSpeed"
                 tools:text="Sep, 20, 2020" />
 
             <TextView

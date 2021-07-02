@@ -10,6 +10,7 @@ import com.example.weatherapp.data.datasource.RetrofitDataSource
 import com.example.weatherapp.data.datasource.RoomDataSource
 import com.example.weatherapp.data.local.PlacesDao
 import com.example.weatherapp.data.local.PreferencesHelper
+import com.example.weatherapp.data.local.WeatherDao
 import com.example.weatherapp.data.local.WeatherDataBase
 import com.example.weatherapp.data.remote.WeatherApiService
 import com.example.weatherapp.domain.usecases.ChangeUnitSystemUseCase
@@ -57,6 +58,10 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun providesPlacesDao(dataBase: WeatherDataBase): PlacesDao = dataBase.placeDao()
+
+    @Provides
+    @Singleton
+    fun providesWeatherDao(dataBase: WeatherDataBase): WeatherDao = dataBase.weatherDao()
 
     // =============Repository
     @Provides

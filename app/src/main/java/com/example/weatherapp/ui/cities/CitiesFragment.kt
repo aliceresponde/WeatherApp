@@ -15,7 +15,6 @@ import com.example.weatherapp.databinding.CitiesFragmentBinding
 import com.example.weatherapp.domain.model.PlaceItem
 import com.example.weatherapp.ui.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.progress_overlay.*
 
 @AndroidEntryPoint
 class CitiesFragment : BaseFragment<CitiesFragmentBinding>() {
@@ -28,7 +27,7 @@ class CitiesFragment : BaseFragment<CitiesFragmentBinding>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = CitiesFragmentBinding.inflate(inflater)
         initObservers()
         return binding.root
