@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.*
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.movieshop.ui.common.BaseFragment
 import com.example.weatherapp.R
@@ -16,11 +18,12 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class StateSelectionFragment : BaseFragment<StateSelectionFragmentBinding>() , OnItemSelectedListener{
+class StateSelectionFragment : BaseFragment<StateSelectionFragmentBinding>(),
+    OnItemSelectedListener {
 
     private val stateList by lazy { resources.getStringArray(R.array.states) }
     private val capitalList by lazy { resources.getStringArray(R.array.capital) }
-    private val viewModel: CitiesViewModel by viewModels()
+    private val viewModel: CitiesViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -50,17 +53,24 @@ class StateSelectionFragment : BaseFragment<StateSelectionFragmentBinding>() , O
 
     private fun initObservers() {
         viewModel.apply {
-            currentCapital.observe(viewLifecycleOwner){
+            currentCapital.observe(viewLifecycleOwner) {
                 binding.capital = it
             }
-            currentState.observe(viewLifecycleOwner){
+            currentState.observe(viewLifecycleOwner) {
                 binding.state = it
             }
-            currentCapital.observe(viewLifecycleOwner){
+            currentCapital.observe(viewLifecycleOwner) {
                 viewModel.getCurrentWeatherByLocationName(it)
             }
-            showCurrentWeatherCard.observe(viewLifecycleOwner){
+            showCurrentWeatherCard.observe(viewLifecycleOwner) {
                 setVisibility(binding.currentWeather, it)
+            }
+            currentWeather.observe(viewLifecycleOwner) {
+                binding.item = it
+            }
+
+            errorMessage.observe(viewLifecycleOwner){
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
             }
         }
     }

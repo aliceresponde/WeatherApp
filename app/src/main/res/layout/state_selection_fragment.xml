@@ -151,11 +151,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:text="@{item.feel}"
                     app:layout_constraintEnd_toEndOf="@+id/icon_rain"
                     app:layout_constraintStart_toStartOf="@+id/icon_rain"
                     app:layout_constraintTop_toBottomOf="@+id/icon_rain"
-                    android:text="@{item.feel}"
                     tools:text="1.1mm" />
+
+                <TextView
+                    android:id="@+id/time_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@{item.date}"
+                    tools:text="12:00pm"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/rain_value"
+                    app:layout_constraintStart_toStartOf="@+id/rain_value"
+                    app:layout_constraintTop_toBottomOf="@+id/rain_value" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

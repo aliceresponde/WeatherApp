@@ -10,104 +10,156 @@
             type="com.example.weatherapp.domain.model.ForecastWeatherItem" />
 
         <variable
-            name="weatherForecastDescription"
-            type="com.example.weatherapp.data.model.NetworkWeatherDescription" />
+            name="state"
+            type="String" />
+
+        <variable
+            name="capital"
+            type="String" />
     </data>
 
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/currentWeather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:backgroundTint="@color/purple_100"
-        app:cardCornerRadius="12dp">
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/statesSpinner"
+        app:layout_constraintStart_toStartOf="@id/statesSpinner"
+        app:layout_constraintTop_toBottomOf="@id/statesSpinner"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:layout_height="match_parent"
+            android:background="@color/purple_200"
+            android:padding="10dp">
 
             <TextView
-                android:id="@+id/cardDtPlace"
+                android:id="@+id/place_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{item.date}"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/cardWindSpeed"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cardWindSpeed"
-                tools:text="Sep, 20, 2020" />
-
-            <TextView
-                android:id="@+id/cardWeatherDesc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="48dp"
-                android:layout_marginRight="48dp"
-                android:text="@{item.weatherDesc}"
-                android:textColor="@color/white"
-                android:textSize="28sp"
+                android:gravity="center_horizontal"
+                android:text="@{capital + ` - ` + state }"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/cardWeatherIcon"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Clear Sky" />
+                tools:text="Texas \n (Austin)" />
 
             <ImageView
-                android:id="@+id/cardWeatherIcon"
+                android:id="@+id/icon"
                 imageUrl="@{item.iconUrl}"
-                android:layout_width="@dimen/weather_icon_size"
-                android:layout_height="@dimen/weather_icon_size"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@mipmap/ic_launcher" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/place_name"
+                tools:src="@drawable/ic_weather" />
 
             <TextView
-                android:id="@+id/cardMainTemp"
-                android:layout_width="0dp"
+                android:id="@+id/weather_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{item.weatherName}"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/current_temp"
+                tools:text="Rain" />
+
+            <TextView
+                android:id="@+id/current_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.currentTemp}"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icon"
+                tools:text="30.5\u2103" />
+
+            <ImageView
+                android:id="@+id/icon_rain"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginTop="5dp"
-                android:text="@{item.temp}"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toStartOf="@id/cardWeatherIcon"
+                app:layout_constraintEnd_toStartOf="@+id/icon_max_temp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/icon_min_temp"
+                app:layout_constraintTop_toBottomOf="@+id/weather_name"
+                app:srcCompat="@drawable/ic_rain" />
+
+            <ImageView
+                android:id="@+id/icon_min_temp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintEnd_toStartOf="@+id/icon_rain"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardWeatherDesc"
-                tools:text="Temp:17 C" />
+                app:layout_constraintTop_toTopOf="@+id/icon_rain"
+                app:srcCompat="@drawable/ic_temp" />
+
+            <ImageView
+                android:id="@+id/icon_max_temp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/icon_rain"
+                app:layout_constraintTop_toTopOf="@+id/icon_rain"
+                app:srcCompat="@drawable/ic_temp" />
 
             <TextView
-                android:id="@+id/cardMainHumidity"
-                android:layout_width="0dp"
+                android:id="@+id/min_temp_value"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{item.humidity}"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardMainTemp"
-                tools:text="Humidity: 22%" />
+                android:text="@{item.minTemp}"
+                app:layout_constraintEnd_toEndOf="@+id/icon_min_temp"
+                app:layout_constraintStart_toStartOf="@+id/icon_min_temp"
+                app:layout_constraintTop_toTopOf="@+id/rain_value"
+                tools:text="Min: 15\u2103" />
 
             <TextView
-                android:id="@+id/cardRain1h"
-                android:layout_width="0dp"
+                android:id="@+id/max_temp_value"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardMainHumidity"
-                tools:text="Rain: 23" />
+                android:text="@{item.maxTemp}"
+                app:layout_constraintEnd_toEndOf="@+id/icon_max_temp"
+                app:layout_constraintStart_toStartOf="@+id/icon_max_temp"
+                app:layout_constraintTop_toTopOf="@+id/rain_value"
+                tools:text="Min: 31\u2103" />
 
             <TextView
-                android:id="@+id/cardWindSpeed"
-                android:layout_width="0dp"
+                android:id="@+id/rain_value"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@{item.windSpeed}"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardRain1h"
-                tools:text="Wind Speed: 3" />
+                android:layout_marginTop="8dp"
+                android:text="@{item.feel}"
+                app:layout_constraintEnd_toEndOf="@+id/icon_rain"
+                app:layout_constraintStart_toStartOf="@+id/icon_rain"
+                app:layout_constraintTop_toBottomOf="@+id/icon_rain"
+                tools:text="1.1mm" />
+
+            <TextView
+                android:id="@+id/time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{item.date}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/rain_value"
+                app:layout_constraintStart_toStartOf="@+id/rain_value"
+                app:layout_constraintTop_toBottomOf="@+id/rain_value"
+                tools:text="12:00pm" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
+
+
 </layout>

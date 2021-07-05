@@ -8,12 +8,12 @@
         android:id="@+id/citiesFragment"
         android:icon="@drawable/ic_weather"
         android:title="@string/weather" />
-    <item
-        android:id="@+id/helpFragment"
-        android:icon="@drawable/ic_help"
-        android:title="@string/help" />
-    <item
-        android:id="@+id/configFragment"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/config" />
+<!--    <item-->
+<!--        android:id="@+id/helpFragment"-->
+<!--        android:icon="@drawable/ic_help"-->
+<!--        android:title="@string/help" />-->
+<!--    <item-->
+<!--        android:id="@+id/configFragment"-->
+<!--        android:icon="@drawable/ic_settings"-->
+<!--        android:title="@string/config" />-->
 </menu>

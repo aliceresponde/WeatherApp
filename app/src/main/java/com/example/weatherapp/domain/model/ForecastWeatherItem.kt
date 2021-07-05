@@ -3,7 +3,10 @@ package com.example.weatherapp.domain.model
 data class ForecastWeatherItem(
     val cityId: Long,
     val placeName: String,
-    val temp: String,
+    val currentTemp: String,
+    val minTemp: String,
+    val maxTemp: String,
+    val feel: String,
     val date: String,
     val humidity: String,
     val pressure: String,

@@ -60,14 +60,17 @@ fun NetworkWeatherForecastResponse.toForeCastWeatherItemList(): List<ForecastWea
             weatherName = weatherCasts.weather.first().weatherName ?: "",
             weatherDesc = weatherCasts.weather.first().weatherDescription ?: "",
             iconUrl = "${BuildConfig.IMG_PREFIX_URL}${weatherCasts.weather.first().weatherIcon}${BuildConfig.IMG_POSFIX_URL}",
-            temp = "Temp: ${weatherCasts.main.temp}",
+            currentTemp = "Temp: ${weatherCasts.main.temp}",
             pressure = "Pressure: ${weatherCasts.main.pressure}",
             humidity = "Humidity: ${weatherCasts.main.humidity}",
             windSpeed = "Wind speed: ${weatherCasts.wind.speed}",
             date = weatherCasts.date,
             country = city.country,
             cityId = this.city.id,
-            dt = weatherCasts.dt
+            dt = weatherCasts.dt,
+            minTemp = "Min: ${weatherCasts.main.temp_min}",
+            maxTemp = "Max: ${weatherCasts.main.temp_max}",
+            feel = weatherCasts.main.feels_like.toString()
         )
     }
 }
