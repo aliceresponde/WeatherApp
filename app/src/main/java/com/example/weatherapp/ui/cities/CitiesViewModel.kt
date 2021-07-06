@@ -1,5 +1,6 @@
 package com.example.weatherapp.ui.cities
 
+
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.hilt.lifecycle.ViewModelInject
@@ -33,8 +34,8 @@ class CitiesViewModel @ViewModelInject constructor(
     private val _showForecastRecycler = MutableLiveData<Boolean>()
     val showForecastRecycler: LiveData<Boolean> get() = _showCurrentWeatherCard
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String> get() = _errorMessage
+    private val _errorMessage = MutableLiveData<Event<String>>()
+    val errorMessage: LiveData<Event<String>> get() = _errorMessage
 
     private val _loadingVisibility = MutableLiveData<Int>()
     val loadingVisibility: LiveData<Int> get() = _loadingVisibility
@@ -58,7 +59,7 @@ class CitiesViewModel @ViewModelInject constructor(
                     _loadingVisibility.postValue(GONE)
                 }
                 else -> {
-                    _errorMessage.postValue("Verify internet connection or find other location")
+                    _errorMessage.postValue(Event("Verify internet connection or find other location"))
                     _loadingVisibility.postValue(GONE)
                 }
             }
@@ -78,7 +79,7 @@ class CitiesViewModel @ViewModelInject constructor(
                     _loadingVisibility.postValue(GONE)
                 }
                 else -> {
-                    _errorMessage.postValue("Verify internet connection or find other location")
+                    _errorMessage.postValue(Event("Verify internet connection or find other location"))
                     _loadingVisibility.postValue(GONE)
                 }
             }

@@ -10,6 +10,7 @@ import com.example.weatherapp.data.model.ForecastWeatherResponse
 import com.example.weatherapp.domain.model.CurrentWeatherItem
 import com.example.weatherapp.domain.model.ForecastItem
 import com.example.weatherapp.ui.utils.currentSystemTime
+import com.example.weatherapp.ui.utils.toFormatDateSting
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -126,16 +127,16 @@ fun ForecastResponse.toForecastEntity(city: CityResponse): ForecastEntity {
         cityName = city.name,
         mainTemp = main.temp,
         mainMinTemp = this.main.temp_min,
-        mainMaxTemp = this.main.temp_max,
-        mainHumidity = this.main.humidity,
-        mainPressure = this.main.pressure,
-        mainFeel = this.main.feels_like,
+        mainMaxTemp = main.temp_max,
+        mainHumidity = main.humidity,
+        mainPressure = main.pressure,
+        mainFeel = main.feels_like,
         weatherName = mWeather.weatherName,
         weatherIcon = mWeather.weatherIcon,
         weatherDesc = mWeather.weatherDescription,
-        windSpeed = this.wind.speed,
-        date = currentSystemTime(),
-        dt = this.dt,
+        windSpeed = wind.speed,
+        date = date,
+        dt = dt,
         timeStamp = Calendar.getInstance().timeInMillis
     )
 }
@@ -160,7 +161,7 @@ fun ForecastWeatherResponse.toForecastEntity(): ForecastEntity {
         weatherName = weather.weather.first().weatherName,
         weatherDesc = weather.weather.first().weatherDescription,
         weatherIcon = weather.weather.first().weatherIcon,
-        date = currentSystemTime(),
+        date = weather.date,
         dt = weather.dt,
         timeStamp = Calendar.getInstance().timeInMillis
     )

@@ -39,7 +39,7 @@ class StateSelectionFragment : BaseFragment<StateSelectionFragmentBinding>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         ArrayAdapter.createFromResource(
             requireContext(),
-            R.array.capital,
+            R.array.states,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -58,6 +58,7 @@ class StateSelectionFragment : BaseFragment<StateSelectionFragmentBinding>(),
             }
             currentState.observe(viewLifecycleOwner) {
                 binding.state = it
+                binding.statesSpinner.setSelection(stateList.indexOf(it))
             }
             currentCapital.observe(viewLifecycleOwner) {
                 viewModel.getCurrentWeatherByLocationName(it)
@@ -69,8 +70,9 @@ class StateSelectionFragment : BaseFragment<StateSelectionFragmentBinding>(),
                 binding.item = it
             }
 
-            errorMessage.observe(viewLifecycleOwner){
-                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            errorMessage.observeForever{
+                if (!it.hasBeenHandled)
+                Toast.makeText(requireContext(), it.getContentIfNotHandled(), Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -78,7 +80,7 @@ class StateSelectionFragment : BaseFragment<StateSelectionFragmentBinding>(),
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         viewModel.setCurrentState(stateList[position])
         viewModel.setCurrentCapital(capitalList[position])
-        viewModel.getCurrentWeatherByLocationName(capitalList[position])
+        viewModel.getCurrentWeatherByLocationName(stateList[position])
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

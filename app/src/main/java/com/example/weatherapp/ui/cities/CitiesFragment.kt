@@ -51,9 +51,10 @@ class CitiesFragment : BaseFragment<CitiesFragmentBinding>() {
                 binding.apply { loader.progressOverlay.visibility = visibility }
             })
 
-            errorMessage.observe(viewLifecycleOwner, {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-            })
+            errorMessage.observeForever {
+                if (!it.hasBeenHandled)
+                    Toast.makeText(requireContext(), it.getContentIfNotHandled(), Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

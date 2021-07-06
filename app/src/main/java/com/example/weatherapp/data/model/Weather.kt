@@ -1,9 +1,7 @@
 package com.example.weatherapp.data.model
 
 import android.os.Parcelable
-import com.example.weatherapp.data.model.NetworkWeatherCondition
-import com.example.weatherapp.data.model.NetworkWeatherDescription
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Weather(

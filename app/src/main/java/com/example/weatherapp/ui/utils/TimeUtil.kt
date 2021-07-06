@@ -8,14 +8,13 @@ import java.util.*
 fun currentSystemTime(): String {
     val currentTime = System.currentTimeMillis()
     val date = Date(currentTime)
-    val dateFormat = SimpleDateFormat("EEEE MMM d, hh:mm aaa")
+    val dateFormat = SimpleDateFormat("EEEE d MMM yyyy, hh:mm aaa")
     return dateFormat.format(date)
 }
 
 @SuppressLint("SimpleDateFormat")
-fun Long.toFormatDateSting(dateFormat: String = "EEEE MMM d, hh:mm aaa"): String {
-    val formatter = SimpleDateFormat(dateFormat)
-    val calendar = Calendar.getInstance()
-    calendar.timeInMillis = this
-    return formatter.format(calendar.time)
+fun Long.toFormatDateSting(dateFormat: String = "EEEE d MMM yyyy, hh:mm aaa"): String {
+    val date = Date(this)
+    val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+    return formatter.format(date)
 }
