@@ -1,6 +1,5 @@
 package com.example.weatherapp.di
 
-import com.example.weatherapp.BuildConfig.API_KEY
 import com.example.weatherapp.BuildConfig.BASE_URL
 import com.example.weatherapp.data.local.PreferencesHelper
 import com.example.weatherapp.data.remote.WeatherApiService

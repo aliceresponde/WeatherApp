@@ -1,8 +1,11 @@
 package com.example.weatherapp.data.datasource
 
+import com.example.weatherapp.data.local.ForecastDao
+import com.example.weatherapp.data.local.ForecastEntity
 import com.example.weatherapp.data.local.Place
 import com.example.weatherapp.data.local.PlacesDao
-import com.example.weatherapp.domain.model.PlaceItem
+import com.example.weatherapp.data.local.WeatherDao
+import com.example.weatherapp.data.local.WeatherEntity
 import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
@@ -14,9 +17,20 @@ interface LocalDataSource {
 
     fun getAllMarkersFlow(): Flow<List<Place>>
     fun getPlaceByNameFlow(name: String): Flow<List<Place>>
+
+    suspend fun saveCurrentWeather(entity: WeatherEntity)
+    suspend fun getCurrentWeather(cityName: String): WeatherEntity
+
+    suspend fun saveForecastWeather(forecast: List<ForecastEntity>, cityName: String)
+    suspend fun getForecastWeather(cityName: String): List<ForecastEntity>
 }
 
-class RoomDataSource(private val placesDao: PlacesDao) : LocalDataSource {
+class RoomDataSource(
+    private val placesDao: PlacesDao,
+    private val weatherDao: WeatherDao,
+    private val forecastDao: ForecastDao,
+) :
+    LocalDataSource {
     override suspend fun savePlace(place: Place) {
         placesDao.insert(place)
     }
@@ -43,5 +57,23 @@ class RoomDataSource(private val placesDao: PlacesDao) : LocalDataSource {
 
     override fun getAllMarkersFlow(): Flow<List<Place>> {
         return placesDao.getAllPlacesFlow()
+    }
+
+    // ================== current weather ==================================================
+    override suspend fun saveCurrentWeather(entity: WeatherEntity) {
+        weatherDao.insertCurrentWeather(entity)
+    }
+
+    override suspend fun getCurrentWeather(cityName: String): WeatherEntity {
+        return weatherDao.getCurrentWeatherByCity(cityName)
+    }
+
+    //======================= forecast ===================
+    override suspend fun saveForecastWeather(forecast: List<ForecastEntity>,cityName: String) {
+        return forecastDao.insertForecast(forecast, cityName)
+    }
+
+    override suspend fun getForecastWeather(cityName: String): List<ForecastEntity> {
+        return forecastDao.getCityForeCast(cityName)
     }
 }

@@ -1,9 +1,5 @@
 package com.example.weatherapp.di
 
-import com.example.weatherapp.domain.usecases.DeleteMarkerUseCase
-import com.example.weatherapp.domain.usecases.GetMarkersUseCase
-import com.example.weatherapp.domain.usecases.SaveMarkerUseCase
-import com.example.weatherapp.ui.home.HomeViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,13 +12,4 @@ import kotlinx.coroutines.Dispatchers
 object PresentationModule {
     @Provides
     fun provideCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.IO
-
-    @Provides
-    fun providesHomeViewModel(
-        coroutineDispatcher: CoroutineDispatcher,
-        saveMarkerUseCase: SaveMarkerUseCase,
-        deleteMarkerUseCase: DeleteMarkerUseCase,
-        getMarkers: GetMarkersUseCase
-    ) = HomeViewModel(coroutineDispatcher, saveMarkerUseCase, deleteMarkerUseCase, getMarkers)
-
 }

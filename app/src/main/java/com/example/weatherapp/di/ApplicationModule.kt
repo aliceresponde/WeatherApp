@@ -8,6 +8,7 @@ import com.example.weatherapp.data.datasource.LocalDataSource
 import com.example.weatherapp.data.datasource.RemoteDataSource
 import com.example.weatherapp.data.datasource.RetrofitDataSource
 import com.example.weatherapp.data.datasource.RoomDataSource
+import com.example.weatherapp.data.local.ForecastDao
 import com.example.weatherapp.data.local.PlacesDao
 import com.example.weatherapp.data.local.PreferencesHelper
 import com.example.weatherapp.data.local.WeatherDao
@@ -15,18 +16,12 @@ import com.example.weatherapp.data.local.WeatherDataBase
 import com.example.weatherapp.data.remote.WeatherApiService
 import com.example.weatherapp.domain.usecases.ChangeUnitSystemUseCase
 import com.example.weatherapp.domain.usecases.ChangeUnitSystemUseCaseImp
-import com.example.weatherapp.domain.usecases.DeleteAllMarkersUseCase
-import com.example.weatherapp.domain.usecases.DeleteAllMarkersUseCaseImp
 import com.example.weatherapp.domain.usecases.GetCurrentUnitSystemUseCase
 import com.example.weatherapp.domain.usecases.GetCurrentUnitSystemUseCaseImp
 import com.example.weatherapp.domain.usecases.GetCurrentWeatherUseCase
 import com.example.weatherapp.domain.usecases.GetCurrentWeatherUseCaseImp
-import com.example.weatherapp.domain.usecases.DeleteMarkerUseCase
-import com.example.weatherapp.domain.usecases.DeleteMarkerUseCaseImp
-import com.example.weatherapp.domain.usecases.GetMarkersUseCase
-import com.example.weatherapp.domain.usecases.GetMarkersUseCaseImp
-import com.example.weatherapp.domain.usecases.SaveMarkerUseCase
-import com.example.weatherapp.domain.usecases.SaveMarkerUseCaseImp
+import com.example.weatherapp.domain.usecases.GetForecastWeatherUseCase
+import com.example.weatherapp.domain.usecases.GetForecastWeatherUseCaseImp
 import com.example.weatherapp.repository.WeatherRepository
 import com.example.weatherapp.repository.WeatherRepositoryImp
 import dagger.Module
@@ -54,7 +49,6 @@ object ApplicationModule {
     fun provideWeatherDataBase(@ApplicationContext context: Context): WeatherDataBase =
         Room.databaseBuilder(context, WeatherDataBase::class.java, "database-name").build()
 
-
     @Provides
     @Singleton
     fun providesPlacesDao(dataBase: WeatherDataBase): PlacesDao = dataBase.placeDao()
@@ -62,6 +56,10 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun providesWeatherDao(dataBase: WeatherDataBase): WeatherDao = dataBase.weatherDao()
+
+    @Provides
+    @Singleton
+    fun providesForecastDao(dataBase: WeatherDataBase): ForecastDao = dataBase.forecastDao()
 
     // =============Repository
     @Provides
@@ -75,33 +73,22 @@ object ApplicationModule {
     // ====================DataSource
 
     @Provides
-    fun provideRoomDataSource(placesDao: PlacesDao): LocalDataSource = RoomDataSource(placesDao)
+    fun provideRoomDataSource(placesDao: PlacesDao, weatherDao: WeatherDao, forecastDao: ForecastDao): LocalDataSource =
+        RoomDataSource(placesDao, weatherDao, forecastDao)
 
     @Provides
     fun providesRetrofitDataSource(api: WeatherApiService): RemoteDataSource =
         RetrofitDataSource(api)
 
     // ============Domain
-    @Provides
-    fun provideSaveMarkerUseCaseImp(repository: WeatherRepository): SaveMarkerUseCase =
-        SaveMarkerUseCaseImp(repository)
-
-    @Provides
-    fun providesDeleteMarkerUseCase(repository: WeatherRepository): DeleteMarkerUseCase =
-        DeleteMarkerUseCaseImp(repository)
-
-    @Provides
-    fun providesGetMarkersUseCase(repository: WeatherRepository): GetMarkersUseCase =
-        GetMarkersUseCaseImp(repository)
-
-    @Provides
-    fun providesDeleteAllMarkersUseCase(repository: WeatherRepository): DeleteAllMarkersUseCase =
-        DeleteAllMarkersUseCaseImp(repository)
 
     @Provides
     fun provideGetCurrentWeatherUseCase(repository: WeatherRepository): GetCurrentWeatherUseCase =
         GetCurrentWeatherUseCaseImp(repository)
 
+    @Provides
+    fun provideGetForecastWeatherUseCase(repository: WeatherRepository): GetForecastWeatherUseCase =
+        GetForecastWeatherUseCaseImp(repository)
 
     // todo change it to local data souce
     @Provides

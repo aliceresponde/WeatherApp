@@ -39,8 +39,6 @@ class ConfigFragment : BaseFragment<ConfigFragmentBinding>() {
             }
         }
 
-        binding.deleteAllMarkersBtn.setOnClickListener { viewModel.deleteAllMarkers() }
-
         viewModel.isChangeReady.observe(viewLifecycleOwner, {
             Toast.makeText(requireContext(), getString(R.string.changes_done), Toast.LENGTH_SHORT).show()
         })

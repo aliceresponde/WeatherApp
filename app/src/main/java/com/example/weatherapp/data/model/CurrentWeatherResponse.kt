@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Today forecast
  */
-data class CurrentWeather(
+data class CurrentWeatherResponse(
     @SerializedName("id")
     val cityId: Long,
     val name: String,

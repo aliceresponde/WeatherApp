@@ -2,29 +2,24 @@ package com.example.weatherapp.repository
 
 import com.example.weatherapp.data.datasource.LocalDataSource
 import com.example.weatherapp.data.datasource.RemoteDataSource
-import com.example.weatherapp.data.local.Place
 import com.example.weatherapp.data.local.PreferencesHelper
-import com.example.weatherapp.data.model.CurrentWeather
-import com.example.weatherapp.data.model.NetworkWeatherForecastResponse
-import com.example.weatherapp.domain.model.PlaceItem
-import kotlinx.coroutines.flow.Flow
+import com.example.weatherapp.data.model.CurrentWeatherResponse
+import com.example.weatherapp.data.model.ForecastWeatherResponse
+import com.example.weatherapp.domain.model.CurrentWeatherItem
+import com.example.weatherapp.domain.model.ForecastItem
+import com.example.weatherapp.domain.toCurrentWeatherEntity
+import com.example.weatherapp.domain.toCurrentWeatherItem
+import com.example.weatherapp.domain.toForeCastWeatherItemList
+import com.example.weatherapp.domain.toForecastEntityList
+import com.example.weatherapp.domain.toForecastItemList
+import com.example.weatherapp.ui.common.Result
+import com.example.weatherapp.ui.common.Result.Error
+import com.example.weatherapp.ui.common.Result.Success
 import javax.inject.Inject
 
 interface WeatherRepository {
-    suspend fun savePlace(place: Place)
-    suspend fun getPlaceBy(latitude: Double, longitude: Double): Place
-    suspend fun getPlaceBy(id: Int): Place
-    suspend fun getPlaceByNameFlow(name: String): Flow<List<Place>>
-
-    suspend fun deleteAllPlaces()
-    suspend fun deletePlaceWithLatLong(lat: Double, long: Double)
-    fun getAllMarkers(): Flow<List<Place>>
-
-    //  ================= remote
-    suspend fun getCurrentWeatherByLocation(locationName: String): CurrentWeather
-    suspend fun getCurrentWeatherByLatLon(latitude: Double, longitude: Double): CurrentWeather
-    suspend fun getForecastWeatherLatLng(lat: Double, long: Double): NetworkWeatherForecastResponse
-    suspend fun getForecastWeatherByLocationName(locationName: String): NetworkWeatherForecastResponse
+    suspend fun fetchCurrentWeatherByLocation(locationName: String): Result<CurrentWeatherItem>
+    suspend fun fetchForecastWeatherByLocationName(locationName: String): Result<List<ForecastItem>>
 }
 
 class WeatherRepositoryImp @Inject constructor(
@@ -32,53 +27,26 @@ class WeatherRepositoryImp @Inject constructor(
     private val remote: RemoteDataSource,
     private val preferencesHelper: PreferencesHelper
 ) : WeatherRepository {
-    override suspend fun savePlace(place: Place) {
-        local.savePlace(place)
+
+    override suspend fun fetchCurrentWeatherByLocation(locationName: String): Result<CurrentWeatherItem> {
+        return when (val respose: Result<CurrentWeatherResponse> = remote.getCurrentWeatherByLocation(locationName)) {
+            is Success -> {
+                respose.data?.let { local.saveCurrentWeather(it.toCurrentWeatherEntity()) }
+                Success(local.getCurrentWeather(locationName).toCurrentWeatherItem())
+            }
+            is Error -> Success(local.getCurrentWeather(locationName).toCurrentWeatherItem())
+        }
     }
 
-    override suspend fun getPlaceBy(latitude: Double, longitude: Double): Place {
-        return local.getPlaceByLatLon(latitude, longitude)
-    }
-
-    override suspend fun getPlaceBy(id: Int): Place {
-        return local.getPlaceById(id)
-    }
-
-    override suspend fun getPlaceByNameFlow(name: String): Flow<List<Place>> {
-        return local.getPlaceByNameFlow(name)
-    }
-
-    override suspend fun deleteAllPlaces() {
-        local.deleteAllPlaces()
-    }
-
-    override suspend fun deletePlaceWithLatLong(lat: Double, long: Double) {
-        local.deletePlaceWithLatLong(lat, long)
-    }
-
-    override fun getAllMarkers(): Flow<List<Place>> {
-        return local.getAllMarkersFlow()
-    }
-
-    override suspend fun getCurrentWeatherByLocation(locationName: String): CurrentWeather {
-        return remote.getCurrentWeatherByLocation(locationName)
-    }
-
-    override suspend fun getCurrentWeatherByLatLon(
-        latitude: Double,
-        longitude: Double
-    ): CurrentWeather {
-        return remote.getCurrentWeatherByLatLon(latitude, longitude)
-    }
-
-    override suspend fun getForecastWeatherLatLng(
-        lat: Double,
-        long: Double
-    ): NetworkWeatherForecastResponse {
-        return remote.getForecastWeatherLatLng(lat, long)
-    }
-
-    override suspend fun getForecastWeatherByLocationName(locationName: String): NetworkWeatherForecastResponse {
-        return remote.getForecastWeatherByLocationName(locationName)
+    override suspend fun fetchForecastWeatherByLocationName(locationName: String): Result<List<ForecastItem>> {
+        return when (val response = remote.getForecastWeatherByLocationName(locationName)) {
+            is Success -> {
+                response.data?.let {
+                    local.saveForecastWeather(it.toForecastEntityList(), locationName)
+                }
+                Success(local.getForecastWeather(locationName).toForecastItemList())
+            }
+            is Error -> Success(local.getForecastWeather(locationName).toForecastItemList())
+        }
     }
 }

@@ -1,16 +1,13 @@
 package com.example.weatherapp.ui.cities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.navArgs
 import com.example.movieshop.ui.common.BaseFragment
 import com.example.weatherapp.databinding.CitiesFragmentBinding
-import com.example.weatherapp.domain.model.PlaceItem
 import com.example.weatherapp.ui.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +39,7 @@ class CitiesFragment : BaseFragment<CitiesFragmentBinding>() {
                 binding.apply { forecastList.showIf { state } }
             })
 
-            forecastWeatherList.observe(viewLifecycleOwner, { data ->
+            forecastList.observe(viewLifecycleOwner, { data ->
                 val state = viewModel.currentState.value ?: ""
                 val capital = viewModel.currentCapital.value ?: ""
                 adapter = WeatherForecastAdapter(capital, state)

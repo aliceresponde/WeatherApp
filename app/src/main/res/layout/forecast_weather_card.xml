@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.example.weatherapp.domain.model.ForecastWeatherItem" />
+            type="com.example.weatherapp.domain.model.ForecastItem" />
 
         <variable
             name="state"
